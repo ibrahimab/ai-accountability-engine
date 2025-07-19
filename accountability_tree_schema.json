@@ -1,0 +1,140 @@
+{
+  "description": "Schema for Accountability Tree - a recursive visual/symbolic interpretation model",
+  "type": "object",
+  "properties": {
+    "objects": {
+      "type": "array",
+      "description": "Primary semantic units in the image",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "meaning_tree": {
+            "type": "array",
+            "description": "Recursive meaning branches",
+            "items": {
+              "type": "object",
+              "properties": {
+                "concept": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "time_period": {
+                  "type": "string"
+                },
+                "geo_region": {
+                  "type": "string"
+                },
+                "bias_risk": {
+                  "type": "string",
+                  "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                  ]
+                },
+                "factual_confidence": {
+                  "type": "number"
+                },
+                "children": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/properties/objects/items/properties/meaning_tree/items"
+                  }
+                }
+              },
+              "required": [
+                "concept"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "meaning_tree"
+        ]
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "description": "Bidirectional or directional relationships between nodes",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "source_to_target",
+              "bidirectional",
+              "target_to_source"
+            ]
+          },
+          "archetype": {
+            "type": "string",
+            "description": "Type of relationship (e.g. reinforces, contradicts)"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "is_deep_link": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "source",
+          "target",
+          "direction"
+        ]
+      }
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "time_of_analysis": {
+          "type": "string"
+        },
+        "analyst_perspective": {
+          "type": "string"
+        },
+        "interpretive_lenses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "lens_name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "bias_risk": {
+                "type": "string"
+              },
+              "trust_rating": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "objects",
+    "relationships"
+  ]
+}
